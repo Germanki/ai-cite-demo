@@ -2,9 +2,12 @@ import ScoreBadge from "@/components/ScoreBadge";
 import SparkLine from "@/components/SparkLine";
 import Link from "next/link";
 
-interface Params { params: { doi: string } }
+type Props = {
+  params: { doi: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
 
-export default async function PaperPage({ params }: Params) {
+export default async function PaperPage({ params }: Props) {
   // turn URL-encoded DOI back into a filename
   const filename = params.doi.replaceAll("/", "_");
   const data: {
