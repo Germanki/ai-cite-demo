@@ -14,14 +14,31 @@ export default async function PaperPage({ params }: Props) {
 
   const { doi } = await params;
   const filename = doi.replaceAll("/", "_");
+  const url = `/mock/doi/${filename}.json`;
 
-  const data = await fetch(`/mock/doi/${filename}.json`, { cache: "no-store" })
-    .then(r => r.json()) as {
+  console.log(`Fetching data for DOI: ${doi}, filename: ${filename}, URL: ${url}`);
+
+  let data;
+  try {
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) {
+      console.error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+      return <p className="p-8">Error loading paper data. Status: {response.status}</p>;
+    }
+    data = await response.json() as {
       doi: string;
       title: string;
       aiCites: number;
       timeline: number[];
     };
+  } catch (error) {
+    console.error(`Error during fetch for ${url}:`, error);
+    return <p className="p-8">An unexpected error occurred while loading paper data.</p>;
+  }
+
+  if (!data) {
+    return <p className="p-8">Paper data could not be loaded.</p>;
+  }
 
   return (
     <div className="min-h-screen p-8 max-w-2xl mx-auto">
