@@ -1,0 +1,5 @@
+[
+    { "rank": 1, "doi": "10.1038/nature12345", "title": "AlphaFold", "aiCites": 128 },
+    { "rank": 2, "doi": "10.1126/science.abc123", "title": "DeepVariant", "aiCites": 97 }
+  ]
+  
